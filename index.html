@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPN Group — Global Airline Representation & Aviation Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=Jost:ital,wght@1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory:      #F5F0E8;
+    --ivory-deep: #EDE5D6;
+    --ivory-mid:  #E8DFD0;
+    --ivory-dark: #DDD3C0;
+    --bronze:     #8B6914;
+    --bronze-mid: #A07C22;
+    --bronze-light: #C49A3C;
+    --bronze-pale:  #D4B06A;
+    --choco:      #1A1208;
+    --choco-mid:  #2E2010;
+    --choco-light:#4A3520;
+    --text-main:  #2C1F0E;
+    --text-secondary: #5C4A30;
+    --text-muted: #8A7458;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ivory);
+    color: var(--text-main);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ─── PAPER TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 1;
+    mix-blend-mode: multiply;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: rgba(245, 240, 232, 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--ivory-dark);
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .nav-logo {
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+    color: var(--choco);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-logo span { color: var(--bronze); }
+  .nav-logo-img {
+    height: 40px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    filter: sepia(0.4) contrast(1.1);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 1px;
+    background: var(--bronze);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--bronze); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  /* ─── LANGUAGE SWITCHER ─── */
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--ivory-dark);
+    overflow: hidden;
+  }
+  .lang-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    padding: 0.45rem 0.85rem;
+    cursor: pointer;
+    transition: color 0.25s, background 0.25s;
+  }
+  .lang-btn.active {
+    color: var(--ivory);
+    background: var(--bronze);
+  }
+  .lang-btn:not(.active):hover {
+    color: var(--bronze);
+  }
+
+  /* ─── HAMBURGER ─── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px; height: 40px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--ivory-dark);
+    gap: 5px; padding: 8px;
+    transition: border-color 0.3s;
+  }
+  .hamburger:hover { border-color: var(--bronze); }
+  .hamburger span {
+    display: block;
+    width: 22px; height: 1.5px;
+    background: var(--choco);
+    border-radius: 0;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s, width 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* ─── MOBILE MENU ─── */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 150;
+    background: rgba(245, 240, 232, 0.99);
+    backdrop-filter: blur(16px);
+    padding: 0 2.5rem;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.55s cubic-bezier(0.23, 1, 0.32, 1), padding 0.4s ease;
+    border-bottom: 1px solid var(--ivory-dark);
+  }
+  .mobile-menu.open {
+    max-height: 100vh;
+    padding: 5.5rem 2.5rem 2.5rem;
+    border-bottom-color: var(--ivory-dark);
+  }
+  .mobile-menu ul { list-style: none; padding: 0; margin: 0; }
+  .mobile-menu ul li {
+    border-bottom: 1px solid var(--ivory-mid);
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  .mobile-menu.open ul li { transform: translateX(0); opacity: 1; }
+  .mobile-menu.open ul li:nth-child(1) { transition-delay: 0.08s; }
+  .mobile-menu.open ul li:nth-child(2) { transition-delay: 0.13s; }
+  .mobile-menu.open ul li:nth-child(3) { transition-delay: 0.18s; }
+  .mobile-menu.open ul li:nth-child(4) { transition-delay: 0.23s; }
+  .mobile-menu.open ul li:nth-child(5) { transition-delay: 0.28s; }
+  .mobile-menu.open ul li:nth-child(6) { transition-delay: 0.33s; }
+  .mobile-menu ul a {
+    display: block;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.85rem;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    color: var(--choco);
+    text-decoration: none;
+    padding: 1.1rem 0;
+    transition: color 0.25s, padding-left 0.25s;
+  }
+  .mobile-menu ul a:hover { color: var(--bronze); padding-left: 0.5rem; }
+  .mobile-lang {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.8rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--ivory-dark);
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: transform 0.4s ease 0.35s, opacity 0.4s ease 0.35s;
+  }
+  .mobile-menu.open .mobile-lang { transform: translateX(0); opacity: 1; }
+  .mobile-lang .lang-btn {
+    font-size: 0.95rem;
+    padding: 0.55rem 1.3rem;
+    border: 1px solid var(--ivory-dark);
+    color: var(--text-secondary);
+  }
+  .mobile-lang .lang-btn.active { background: var(--bronze); color: var(--ivory); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 8rem 4rem 5rem;
+    background: var(--ivory);
+  }
+
+  /* Subtle ruled-paper lines */
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(
+        transparent,
+        transparent 79px,
+        rgba(139,105,20,0.06) 79px,
+        rgba(139,105,20,0.06) 80px
+      ),
+      linear-gradient(108deg, #F5F0E8 0%, #EDE5D6 55%, #E8DFC8 100%);
+  }
+
+  /* Decorative vertical rule — like a leather ledger margin */
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(90deg, rgba(139,105,20,0.12) 1px, transparent 1px);
+    background-size: 88px 80px;
+    background-position: 72px 0;
+    opacity: 0.5;
+  }
+
+  /* Oversized watermark letter */
+  .hero-circle {
+    position: absolute;
+    right: 4%; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(14rem, 30vw, 28rem);
+    font-weight: 400;
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(139,105,20,0.08);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.04em;
+  }
+
+  .hero-line {
+    position: absolute; left:0;right:0;top:0;bottom:0;
+    pointer-events: none; overflow: hidden;
+  }
+  /* Left red-line margin — classic paper aesthetic */
+  .hero-line::before {
+    content: '';
+    position: absolute;
+    left: 10%; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent 5%, rgba(180,60,40,0.12) 20%, rgba(180,60,40,0.12) 80%, transparent 95%);
+  }
+  .hero-line::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 45%;
+    background: linear-gradient(to left, rgba(237,229,214,0.6), transparent);
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 700px; }
+
+  .hero-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 1.8rem;
+    display: flex; align-items: center; gap: 1.2rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 48px; height: 1px;
+    background: var(--bronze);
+    opacity: 0.7;
+  }
+
+  .hero h1 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(3rem, 6vw, 6.5rem);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+    margin-bottom: 2rem;
+    color: var(--choco);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--bronze);
+  }
+
+  .hero-sub {
+    font-family: 'Jost', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.85;
+    max-width: 540px;
+    margin-bottom: 3rem;
+  }
+
+  .hero-btns { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+  /* ─── BUTTONS ─── */
+  .btn-primary {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ivory);
+    background: var(--choco);
+    border: 1px solid var(--choco);
+    padding: 1rem 2.4rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s, color 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover {
+    background: var(--bronze);
+    border-color: var(--bronze);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--choco);
+    background: transparent;
+    border: 1px solid var(--choco-light);
+    padding: 1rem 2.4rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.3s, background 0.3s, color 0.3s, transform 0.2s;
+  }
+  .btn-outline:hover {
+    border-color: var(--bronze);
+    color: var(--bronze);
+    background: rgba(139,105,20,0.05);
+    transform: translateY(-2px);
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; left: 4rem;
+    display: flex; align-items: center; gap: 0.8rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem; font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+  .scroll-hint::before {
+    content: '';
+    display: block; width: 1px; height: 50px;
+    background: linear-gradient(to bottom, transparent, var(--bronze-mid));
+    animation: scrollLine 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+  /* ─── SECTION COMMON ─── */
+  section { position: relative; }
+  .section-pad { padding: 7rem 4rem; }
+
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block; width: 28px; height: 1px;
+    background: var(--bronze); opacity: 0.6;
+  }
+
+  .section-title {
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(2.3rem, 4vw, 3.8rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--choco);
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--bronze);
+  }
+
+  .section-text {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.85;
+    max-width: 580px;
+  }
+
+  .divider {
+    width: 56px; height: 1px;
+    background: linear-gradient(to right, var(--bronze), transparent);
+    margin: 1.5rem 0;
+  }
+
+  /* ─── TRUST BAR ─── */
+  .trust {
+    background: var(--choco);
+    border-top: 1px solid rgba(139,105,20,0.3);
+    border-bottom: 1px solid rgba(139,105,20,0.3);
+  }
+  .trust-inner { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .trust-item {
+    padding: 3.5rem 3rem;
+    border-right: 1px solid rgba(139,105,20,0.15);
+    transition: background 0.3s;
+    text-align: left;
+  }
+  .trust-item:last-child { border-right: none; }
+  .trust-item:hover { background: rgba(139,105,20,0.08); }
+  .trust-value {
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    font-size: 3.4rem;
+    color: var(--bronze-pale);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .trust-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+  }
+
+  /* ─── ABOUT ─── */
+  .about { background: var(--ivory); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+  .about-text {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--ivory-dark);
+    margin-top: 1.5rem;
+  }
+  .team-item {
+    background: var(--ivory);
+    padding: 1.8rem;
+    transition: background 0.3s;
+  }
+  .team-item:hover { background: var(--ivory-deep); }
+  .team-city {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 0.4rem;
+  }
+  .team-count {
+    font-family: 'EB Garamond', serif;
+    font-size: 2.6rem;
+    font-weight: 400;
+    color: var(--choco);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .team-role {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  .usp-list { list-style: none; margin-top: 2rem; }
+  .usp-list li {
+    display: flex; align-items: flex-start;
+    gap: 1rem; padding: 0.9rem 0;
+    border-bottom: 1px solid var(--ivory-dark);
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+  }
+  .usp-list li::before {
+    content: '◆';
+    color: var(--bronze);
+    font-size: 0.45rem;
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── SERVICES ─── */
+  .services-bg { background: var(--ivory-deep); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--ivory-dark);
+    margin-top: 4rem;
+  }
+  .service-card {
+    background: var(--ivory-deep);
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(to right, var(--bronze), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .service-card:hover { background: var(--ivory-mid); }
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-num {
+    font-family: 'EB Garamond', serif;
+    font-size: 4rem;
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(139,105,20,0.1);
+    line-height: 1;
+    margin-bottom: 1rem;
+    transition: color 0.4s;
+  }
+  .service-card:hover .service-num { color: rgba(139,105,20,0.2); }
+
+  .service-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.97rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--choco);
+    margin-bottom: 1rem;
+  }
+  .service-desc {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  /* ─── CONSULTING ─── */
+  .consulting { background: var(--ivory); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tag {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    border: 1px solid rgba(139,105,20,0.3);
+    padding: 0.4rem 1rem;
+    background: rgba(139,105,20,0.04);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .tag:hover { background: rgba(139,105,20,0.1); border-color: var(--bronze); }
+
+  .for-whom { margin-top: 3rem; }
+  .for-whom-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .for-list { list-style: none; }
+  .for-list li {
+    font-family: 'Jost', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--text-secondary);
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--ivory-dark);
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .for-list li::before { content: '→'; color: var(--bronze); font-size: 0.9rem; }
+
+  /* ─── CORPORATE TRAVEL ─── */
+  .corporate { background: var(--ivory-deep); }
+  .corporate-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px; background: var(--ivory-dark); margin-top: 3rem;
+  }
+  .corp-card {
+    background: var(--ivory-deep); padding: 2.5rem;
+    transition: background 0.4s; position: relative; overflow: hidden;
+  }
+  .corp-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 1px;
+    background: linear-gradient(to right, var(--bronze), transparent);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+  }
+  .corp-card:hover { background: var(--ivory-mid); }
+  .corp-card:hover::before { transform: scaleX(1); }
+
+  .corp-icon { font-size: 1.8rem; margin-bottom: 1.2rem; display: block; }
+  .corp-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.95rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--choco); margin-bottom: 0.8rem;
+  }
+  .corp-desc { font-size: 1.03rem; color: var(--text-secondary); line-height: 1.8; }
+
+  /* ─── EDUCATION ─── */
+  .education { background: var(--ivory); }
+  .edu-highlight {
+    margin-top: 2rem;
+    padding: 2.5rem 3rem;
+    border: 1px solid rgba(139,105,20,0.2);
+    background: rgba(139,105,20,0.03);
+    position: relative; overflow: hidden;
+  }
+  .edu-highlight::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: linear-gradient(to bottom, var(--bronze), transparent);
+  }
+  .edu-program-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.9rem; font-weight: 400;
+    margin-bottom: 0.8rem; color: var(--bronze-mid);
+    font-style: italic;
+  }
+
+  /* ─── REPRESENTATION ─── */
+  .representation { background: var(--ivory-deep); }
+  .feature-list { list-style: none; margin-top: 2rem; }
+  .feature-list li {
+    display: flex; align-items: flex-start; gap: 1.2rem;
+    padding: 1rem 0; border-bottom: 1px solid var(--ivory-dark);
+    font-size: 1.05rem; color: var(--text-secondary); letter-spacing: 0.02em;
+  }
+  .feature-list li::before {
+    content: '◆'; color: var(--bronze); font-size: 0.45rem; margin-top: 0.5rem; flex-shrink: 0;
+  }
+  .big-text {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(4rem, 9vw, 11rem); font-weight: 400;
+    font-style: italic;
+    color: rgba(139,105,20,0.05); position: absolute;
+    right: 3rem; top: 50%; transform: translateY(-50%);
+    white-space: nowrap; pointer-events: none;
+    letter-spacing: -0.03em; line-height: 1;
+  }
+
+  /* ─── TRAVEL ─── */
+  .travel { background: var(--ivory); }
+  .travel-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--ivory-dark); margin-top: 3rem;
+  }
+  .travel-card {
+    background: var(--ivory); padding: 3.5rem;
+    position: relative; overflow: hidden; transition: background 0.4s;
+  }
+  .travel-card:hover { background: var(--ivory-deep); }
+  .travel-icon { font-size: 2rem; margin-bottom: 1.5rem; display: block; }
+  .travel-card-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600; font-size: 1.03rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--choco); margin-bottom: 1rem;
+  }
+  .travel-card-desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; }
+
+  /* ─── CHARTER ─── */
+  .charter { background: var(--ivory-deep); }
+  .charter-types { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
+  .charter-type {
+    border: 1px solid rgba(139,105,20,0.15);
+    padding: 1.8rem 2rem; background: rgba(139,105,20,0.02);
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .charter-type::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, var(--bronze), transparent);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+  }
+  .charter-type:hover { border-color: rgba(139,105,20,0.35); background: rgba(139,105,20,0.05); }
+  .charter-type:hover::after { transform: scaleX(1); }
+  .charter-type-title {
+    font-family: 'Jost', sans-serif;
+    font-weight: 600; font-size: 0.95rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--bronze-mid);
+  }
+
+  /* ─── MARKETS ─── */
+  .markets { background: var(--choco); overflow: hidden; }
+  .markets-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .markets .section-label { color: var(--bronze-pale); }
+  .markets .section-label::before { background: var(--bronze-pale); }
+  .markets .section-title { color: rgba(245,240,232,0.92); }
+  .markets .section-title em { color: var(--bronze-pale); }
+  .markets .section-text { color: rgba(245,240,232,0.55); }
+  .markets .divider { background: linear-gradient(to right, var(--bronze-pale), transparent); }
+
+  .regions { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 2rem; }
+  .region-item {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 1.1rem 0; border-bottom: 1px solid rgba(245,240,232,0.06);
+    cursor: default; transition: padding-left 0.3s;
+  }
+  .region-item:hover { padding-left: 0.5rem; }
+  .region-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--bronze-pale); flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(212,176,106,0.5);
+  }
+  .region-name {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.55rem; font-weight: 400;
+    letter-spacing: 0.03em;
+    color: rgba(245,240,232,0.85); transition: color 0.3s;
+  }
+  .region-item:hover .region-name { color: var(--bronze-pale); }
+
+  /* Plane visual */
+  .visual-plane {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    height: 380px;
+  }
+  .plane-circle {
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,176,106,0.2);
+    position: absolute;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .plane-circle::before {
+    content: ''; position: absolute; inset: -24px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,176,106,0.07);
+  }
+  .plane-circle::after {
+    content: ''; position: absolute; inset: 24px;
+    border-radius: 50%;
+    border: 1px dashed rgba(212,176,106,0.15);
+    animation: rotateSlow 22s linear infinite;
+  }
+  @keyframes rotateSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .plane-icon-svg {
+    width: 72px; height: 72px;
+    color: var(--bronze-pale);
+    opacity: 0.4;
+  }
+
+  /* ─── WHY ─── */
+  .why {
+    background: var(--ivory-deep);
+    border-top: 1px solid var(--ivory-dark);
+    border-bottom: 1px solid var(--ivory-dark);
+  }
+  .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .why-item {
+    display: flex; align-items: flex-start; gap: 1.2rem;
+    padding: 2rem; border: 1px solid var(--ivory-dark);
+    background: var(--ivory); transition: border-color 0.3s, background 0.3s;
+  }
+  .why-item:hover { border-color: rgba(139,105,20,0.3); background: rgba(139,105,20,0.03); }
+  .why-check {
+    width: 30px; height: 30px;
+    border: 1px solid rgba(139,105,20,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--bronze); font-size: 0.8rem; flex-shrink: 0;
+    background: rgba(139,105,20,0.05);
+  }
+  .why-text { font-size: 1.05rem; color: var(--text-secondary); font-weight: 400; padding-top: 0.2rem; line-height: 1.65; }
+
+  /* ─── FINAL CTA ─── */
+  .final-cta { text-align: center; background: var(--choco); overflow: hidden; }
+  .final-cta-inner { position: relative; padding: 8rem 4rem; }
+  .final-cta-bg {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(transparent, transparent 79px, rgba(139,105,20,0.04) 79px, rgba(139,105,20,0.04) 80px),
+      radial-gradient(ellipse 70% 60% at 50% 50%, rgba(139,105,20,0.08) 0%, transparent 70%);
+  }
+  .final-cta h2 {
+    font-family: 'EB Garamond', serif; font-weight: 400;
+    font-size: clamp(2.8rem, 5vw, 4.6rem);
+    margin-bottom: 1rem; position: relative;
+    color: rgba(245,240,232,0.92);
+  }
+  .final-cta h2 em { font-style: italic; color: var(--bronze-pale); }
+  .final-cta p {
+    color: rgba(245,240,232,0.5);
+    font-size: 1.12rem; margin-bottom: 3rem; position: relative;
+  }
+  .final-btns {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; position: relative;
+  }
+  /* CTA section buttons — inverted for dark bg */
+  .final-cta .btn-primary {
+    background: var(--bronze);
+    border-color: var(--bronze);
+    color: var(--ivory);
+  }
+  .final-cta .btn-primary:hover {
+    background: var(--bronze-mid);
+    border-color: var(--bronze-mid);
+  }
+  .final-cta .btn-outline {
+    color: rgba(245,240,232,0.75);
+    border-color: rgba(245,240,232,0.2);
+  }
+  .final-cta .btn-outline:hover {
+    border-color: var(--bronze-pale);
+    color: var(--bronze-pale);
+    background: rgba(212,176,106,0.06);
+  }
+
+  /* ─── CONTACT ─── */
+  .contact { background: var(--ivory); }
+  .contact-inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; align-items: start; }
+  .contact-detail { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; font-size: 1.08rem; color: var(--text-secondary); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label {
+    display: block; font-family: 'Jost', sans-serif;
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 0.5rem;
+  }
+  .form-group input, .form-group textarea {
+    width: 100%; background: var(--ivory-deep);
+    border: 1px solid var(--ivory-dark);
+    color: var(--choco); font-family: 'Jost', sans-serif;
+    font-size: 1rem; padding: 0.95rem 1.2rem;
+    outline: none; transition: border-color 0.3s, background 0.3s;
+  }
+  .form-group input:focus, .form-group textarea:focus {
+    border-color: var(--bronze); background: var(--ivory);
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-muted); opacity: 0.5; }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--choco-mid);
+    border-top: 1px solid rgba(139,105,20,0.2);
+    padding: 4rem 4rem 2.5rem;
+  }
+  .footer-inner {
+    display: grid; grid-template-columns: 1.5fr 1fr;
+    gap: 4rem; margin-bottom: 3rem; padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(245,240,232,0.07);
+  }
+  .footer-brand {
+    font-family: 'EB Garamond', serif;
+    font-weight: 400; font-size: 2.1rem;
+    letter-spacing: 0.03em;
+    color: var(--bronze-pale); margin-bottom: 0.8rem;
+  }
+  .footer-brand span { color: rgba(245,240,232,0.7); }
+  .footer-tagline { font-size: 0.98rem; color: rgba(245,240,232,0.35); line-height: 1.75; max-width: 300px; }
+  .footer-nav-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--bronze-pale); margin-bottom: 1.2rem;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.7rem; }
+  .footer-links a {
+    font-size: 1rem;
+    color: rgba(245,240,232,0.35);
+    text-decoration: none; transition: color 0.3s; letter-spacing: 0.02em;
+  }
+  .footer-links a:hover { color: var(--bronze-pale); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
+  .footer-copy {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.95rem; font-weight: 400;
+    letter-spacing: 0.12em;
+    color: rgba(245,240,232,0.2);
+  }
+
+  /* ─── ICON REPLACEMENTS ─── */
+  .corp-icon {
+    display: block;
+    width: 36px; height: 36px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(139,105,20,0.35);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .corp-icon::before {
+    content: '';
+    position: absolute; inset: 6px;
+    background: var(--bronze);
+    opacity: 0.1;
+  }
+  .corp-icon-1::after { content: '01'; position: absolute; inset: 0; display: block; line-height: 36px; text-align: center; font-family: 'Jost', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; color: var(--bronze); }
+  .corp-icon-2::after { content: '02'; position: absolute; inset: 0; display: block; line-height: 36px; text-align: center; font-family: 'Jost', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; color: var(--bronze); }
+  .corp-icon-3::after { content: '03'; position: absolute; inset: 0; display: block; line-height: 36px; text-align: center; font-family: 'Jost', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; color: var(--bronze); }
+
+  .travel-icon {
+    display: block;
+    width: 40px; height: 1px;
+    background: linear-gradient(to right, var(--bronze), transparent);
+    margin-bottom: 1.8rem;
+    position: relative;
+  }
+  .travel-icon::before {
+    content: '';
+    position: absolute; left: 0; top: -3px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--bronze);
+  }
+  .travel-icon-in::before { left: auto; right: 0; }
+  .travel-icon-in { background: linear-gradient(to left, var(--bronze), transparent); }
+
+  .contact-icon {
+    display: inline-block;
+    width: 20px; height: 20px;
+    border: 1px solid rgba(139,105,20,0.35);
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .contact-icon::after {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--bronze);
+  }
+
+  /* ─── FADE UP ─── */
+  .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── INLINE DARK PANEL OVERRIDES ─── */
+  /* For inline style panels that use rgba(200,169,110,...) we remap via matching selectors */
+  [style*="rgba(200,169,110"] {
+    /* This catches inline-styled panels */
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: block; }
+    .section-pad { padding: 5rem 2.5rem; }
+    .trust-inner { grid-template-columns: repeat(2, 1fr); }
+    .trust-item { border-right: none; border-bottom: 1px solid rgba(139,105,20,0.1); }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .two-col { grid-template-columns: 1fr; gap: 3rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .corporate-grid { grid-template-columns: 1fr; }
+    .charter-types { grid-template-columns: 1fr; }
+    .markets-inner { grid-template-columns: 1fr; }
+    .globe-visual { display: none; }
+    .why-grid { grid-template-columns: 1fr; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .hero { padding: 7rem 2rem 5rem; min-height: auto; }
+    .hero-content { max-width: 100%; }
+    .scroll-hint { left: 2rem; }
+    .big-text { display: none; }
+    .final-cta-inner { padding: 5rem 2.5rem; }
+    footer { padding: 4rem 2.5rem 2.5rem; }
+    .hero-circle { font-size: 10rem; opacity: 0.5; }
+  }
+  @media (max-width: 640px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .trust-inner { grid-template-columns: 1fr; }
+    .travel-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr; }
+    .hero { padding: 6rem 1.5rem 4rem; }
+    .hero h1 { font-size: clamp(2.5rem, 8vw, 3rem); line-height: 1.08; }
+    .hero-sub { font-size: 1.05rem; margin-bottom: 2rem; }
+    .hero-eyebrow { margin-bottom: 1rem; }
+    .hero-btns { flex-direction: column; align-items: flex-start; }
+    .section-pad { padding: 4rem 1.5rem; }
+    .section-title { font-size: clamp(1.8rem, 6vw, 2.4rem); }
+    .trust-item { padding: 2.5rem 1.5rem; }
+    .why-grid { grid-template-columns: 1fr; }
+    .final-cta-inner { padding: 4rem 1.5rem; }
+    .final-btns { flex-direction: column; align-items: center; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    footer { padding: 3rem 1.5rem 2rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .edu-highlight { padding: 1.8rem 2rem; }
+    .scroll-hint { display: none; }
+    .hero-circle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#about" onclick="closeMenu()" data-en="About" data-ru="О компании">About</a></li>
+    <li><a href="#services" onclick="closeMenu()" data-en="Services" data-ru="Услуги">Services</a></li>
+    <li><a href="#consulting" onclick="closeMenu()" data-en="Consulting" data-ru="Консалтинг">Consulting</a></li>
+    <li><a href="#charter" onclick="closeMenu()" data-en="Charter" data-ru="Чартер">Charter</a></li>
+    <li><a href="#markets" onclick="closeMenu()" data-en="Markets" data-ru="Рынки">Markets</a></li>
+    <li><a href="#contact" onclick="closeMenu()" data-en="Contact" data-ru="Контакт">Contact</a></li>
+  </ul>
+  <div class="mobile-lang">
+    <button class="lang-btn active" onclick="setLang('en', this)">EN</button>
+    <button class="lang-btn" onclick="setLang('ru', this)">RU</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a href="#" class="nav-logo">
+      <img src="https://i.postimg.cc/3xDXGzx8/IMG-20260314-101410.png" alt="GPN Group" class="nav-logo-img">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about" data-en="About" data-ru="О компании">About</a></li>
+      <li><a href="#services" data-en="Services" data-ru="Услуги">Services</a></li>
+      <li><a href="#consulting" data-en="Consulting" data-ru="Консалтинг">Consulting</a></li>
+      <li><a href="#charter" data-en="Charter" data-ru="Чартер">Charter</a></li>
+      <li><a href="#markets" data-en="Markets" data-ru="Рынки">Markets</a></li>
+      <li><a href="#contact" data-en="Contact" data-ru="Контакт">Contact</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="desktopLangEn" onclick="setLang('en', this)">EN</button>
+      <button class="lang-btn" id="desktopLangRu" onclick="setLang('ru', this)">RU</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-circle">G</div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-en="GPN Group · Aviation Excellence" data-ru="GPN Group · Авиационное превосходство">GPN Group · Aviation Excellence</div>
+    <h1 data-en="Global <em>Airline</em><br>Representation<br>& Aviation Consulting" data-ru="Глобальное <em>Представительство</em><br>Авиакомпаний<br>и Консалтинг">Global <em>Airline</em><br>Representation<br>& Aviation Consulting</h1>
+    <p class="hero-sub" data-en="A boutique international aviation consulting, operations and distribution group. 7 experts strategically positioned across Georgia, Kazakhstan, Spain and Ukraine — delivering global vision with deep local expertise." data-ru="Международная бутиковая группа авиационного консалтинга, операций и дистрибьюции. 7 экспертов стратегически расположены в Грузии, Казахстане, Испании и Украине — глобальное видение, глубокая локальная экспертиза.">A boutique international aviation consulting, operations and distribution group. 7 experts strategically positioned across Georgia, Kazakhstan, Spain and Ukraine — delivering global vision with deep local expertise.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary" data-en="Become Airline Partner" data-ru="Стать партнёром">Become Airline Partner</a>
+      <a href="#charter" class="btn-outline" data-en="Request Charter Flight" data-ru="Запросить чартер">Request Charter Flight</a>
+      <a href="#consulting" class="btn-outline" data-en="Aviation Consulting" data-ru="Консалтинг">Aviation Consulting</a>
+    </div>
+  </div>
+  <div class="scroll-hint" data-en="Scroll to explore" data-ru="Листать вниз">Scroll to explore</div>
+</section>
+
+<!-- TRUST -->
+<section class="trust">
+  <div class="trust-inner">
+    <div class="trust-item fade-up">
+      <div class="trust-value">30+</div>
+      <div class="trust-label" data-en="Years aviation industry experience" data-ru="Лет опыта в авиации">Years aviation industry experience</div>
+    </div>
+    <div class="trust-item fade-up">
+      <div class="trust-value">7</div>
+      <div class="trust-label" data-en="Expert team members worldwide" data-ru="Экспертов по всему миру">Expert team members worldwide</div>
+    </div>
+    <div class="trust-item fade-up">
+      <div class="trust-value">4</div>
+      <div class="trust-label" data-en="Countries of presence" data-ru="Страны присутствия">Countries of presence</div>
+    </div>
+    <div class="trust-item fade-up">
+      <div class="trust-value">CIS & EU</div>
+      <div class="trust-label" data-en="Key aviation markets covered" data-ru="Ключевые авиарынки">Key aviation markets covered</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about section-pad" id="about">
+  <div class="section-label" data-en="About Us" data-ru="О компании">About Us</div>
+  <h2 class="section-title fade-up" data-en="Boutique Aviation<br><em>Group</em>" data-ru="Бутиковая Авиационная<br><em>Группа</em>">Boutique Aviation<br><em>Group</em></h2>
+  <div class="divider"></div>
+  <div class="about-grid">
+    <div>
+      <p class="about-text" data-en="GPN Group is a boutique international aviation consulting, operations and distribution group with a team of 7 senior experts strategically positioned across Georgia, Kazakhstan, Spain and Ukraine." data-ru="GPN Group — международная бутиковая группа авиационного консалтинга, операций и дистрибьюции с командой из 7 старших экспертов, стратегически расположенных в Грузии, Казахстане, Испании и Украине.">GPN Group is a boutique international aviation consulting, operations and distribution group with a team of 7 senior experts strategically positioned across Georgia, Kazakhstan, Spain and Ukraine.</p>
+      <p class="about-text" data-en="Founded on deep operational expertise accumulated through decades in international aviation, we serve airlines, investors and corporations seeking an experienced, results-driven boutique partner across CIS, Caucasus and European markets." data-ru="Основанная на глубокой операционной экспертизе, накопленной за десятилетия в международной авиации, мы обслуживаем авиакомпании, инвесторов и корпорации, ищущих опытного, ориентированного на результат бутикового партнёра на рынках СНГ, Кавказа и Европы.">Founded on deep operational expertise accumulated through decades in international aviation, we serve airlines, investors and corporations seeking an experienced, results-driven boutique partner across CIS, Caucasus and European markets.</p>
+      <div class="team-grid">
+        <div class="team-item">
+          <div class="team-city" data-en="Georgia" data-ru="Грузия">Georgia</div>
+          <div class="team-count">4</div>
+          <div class="team-role" data-en="GSA & sales team" data-ru="GSA и продажи">GSA & sales team</div>
+        </div>
+        <div class="team-item">
+          <div class="team-city" data-en="Kazakhstan" data-ru="Казахстан">Kazakhstan</div>
+          <div class="team-count">1</div>
+          <div class="team-role" data-en="CIS expertise" data-ru="Экспертиза СНГ">CIS expertise</div>
+        </div>
+        <div class="team-item">
+          <div class="team-city" data-en="Spain" data-ru="Испания">Spain</div>
+          <div class="team-count">1</div>
+          <div class="team-role" data-en="European markets" data-ru="Рынки Европы">European markets</div>
+        </div>
+        <div class="team-item">
+          <div class="team-city" data-en="Ukraine" data-ru="Украина">Ukraine</div>
+          <div class="team-count">1</div>
+          <div class="team-role" data-en="CIS expertise" data-ru="Экспертиза СНГ">CIS expertise</div>
+        </div>
+      </div>
+    </div>
+    <div class="fade-up">
+      <div class="section-label" style="margin-bottom: 1rem;" data-en="Our Edge" data-ru="Наши преимущества">Our Edge</div>
+      <h3 style="font-family:'EB Garamond',serif; font-weight:400; font-size:2.5rem; margin-bottom:1.5rem; line-height:1.15; color:var(--choco);" data-en="Why Clients Choose<br><em>GPN Group</em>" data-ru="Почему клиенты выбирают<br><em>GPN Group</em>">Why Clients Choose<br><em>GPN Group</em></h3>
+      <ul class="usp-list">
+        <li data-en="30+ years of combined operational and commercial airline expertise" data-ru="30+ лет совокупного операционного и коммерческого опыта в авиации">30+ years of combined operational and commercial airline expertise</li>
+        <li data-en="Unique Georgia agency network: direct access to consolidated ticket sales" data-ru="Уникальная агентская сеть в Грузии: прямой доступ к консолидированным продажам">Unique Georgia agency network: direct access to consolidated ticket sales</li>
+        <li data-en="Boutique approach — clients work directly with senior experts, not intermediaries" data-ru="Бутиковый подход — клиенты работают напрямую с экспертами, без посредников">Boutique approach — clients work directly with senior experts, not intermediaries</li>
+        <li data-en="Distributed geography enables rapid response across multiple time zones and jurisdictions" data-ru="Распределённая география обеспечивает быстрый отклик в разных часовых поясах и юрисдикциях">Distributed geography enables rapid response across multiple time zones and jurisdictions</li>
+        <li data-en="Full-cycle support: from market entry strategy to operational implementation" data-ru="Полный цикл поддержки: от стратегии выхода на рынок до операционной реализации">Full-cycle support: from market entry strategy to operational implementation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section-pad services-bg" id="services">
+  <div class="section-label" data-en="Our Solutions" data-ru="Наши решения">Our Solutions</div>
+  <h2 class="section-title fade-up" data-en="Core Services" data-ru="Основные услуги">Core Services</h2>
+  <div class="divider"></div>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-num">01</div>
+      <div class="service-title" data-en="GSA / Distribution" data-ru="ГСА / Дистрибьюция">GSA / Distribution</div>
+      <p class="service-desc" data-en="Sales representation and instant access to our developed agency network in Georgia for airlines entering the market." data-ru="Представительство по продажам и мгновенный доступ к развитой агентской сети в Грузии для авиакомпаний, входящих на рынок.">Sales representation and instant access to our developed agency network in Georgia for airlines entering the market.</p>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">02</div>
+      <div class="service-title" data-en="Airline Consulting" data-ru="Авиационный консалтинг">Airline Consulting</div>
+      <p class="service-desc" data-en="Strategic consulting for airlines, aviation startups and investors. External operational support and commercial development." data-ru="Стратегический консалтинг для авиакомпаний, стартапов и инвесторов. Внешняя операционная поддержка и коммерческое развитие.">Strategic consulting for airlines, aviation startups and investors. External operational support and commercial development.</p>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">03</div>
+      <div class="service-title" data-en="Corporate Travel" data-ru="Корпоративные поездки">Corporate Travel</div>
+      <p class="service-desc" data-en="Premium Travel Assistant services for large companies — full management of complex executive travel with 24/7 support." data-ru="Услуги Travel Assistant премиум-класса для крупных компаний — полное управление сложными поездками топ-менеджмента с поддержкой 24/7.">Premium Travel Assistant services for large companies — full management of complex executive travel with 24/7 support.</p>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">04</div>
+      <div class="service-title" data-en="Charter & Group Flights" data-ru="Чартер и групповые рейсы">Charter & Group Flights</div>
+      <p class="service-desc" data-en="Aircraft charter, group travel programs, combination flights, VIP private aviation, and air cargo — fully managed, end-to-end." data-ru="Авиачартер, групповые туры, комбинированные рейсы, VIP частная авиация и авиагрузы — полное сопровождение.">Aircraft charter, group travel programs, combination flights, VIP private aviation, and air cargo — fully managed, end-to-end.</p>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">05</div>
+      <div class="service-title" data-en="Education & Training" data-ru="Образование и тренинги">Education & Training</div>
+      <p class="service-desc" data-en="Specialized training programs for aviation managers. Flagship course: 'Airline Ticket Sales' — proven practical knowledge." data-ru="Специализированные тренинги для авиаменеджеров. Флагманский курс: «Реализация авиабилетов» — проверенные практические знания.">Specialized training programs for aviation managers. Flagship course: 'Airline Ticket Sales' — proven practical knowledge.</p>
+    </div>
+    <div class="service-card fade-up" style="background:rgba(139,105,20,0.04); display:flex; align-items:center; justify-content:center; padding:3rem;">
+      <a href="#contact" class="btn-primary" data-en="Explore All Services" data-ru="Все услуги">Explore All Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONSULTING -->
+<section class="consulting section-pad" id="consulting">
+  <div class="two-col">
+    <div>
+      <div class="section-label" data-en="Consulting" data-ru="Консалтинг">Consulting</div>
+      <h2 class="section-title fade-up" data-en="Airline Consulting &<br><em>Aviation Strategy</em>" data-ru="Авиационный консалтинг и<br><em>Стратегия</em>">Airline Consulting &<br><em>Aviation Strategy</em></h2>
+      <div class="divider"></div>
+      <p class="section-text" data-en="GPN Group acts as an external operational division for airlines — providing commercial support, process optimization and turnkey charter operations. We bring experience from real operational work in Ukraine and European markets." data-ru="GPN Group выступает как внешнее операционное подразделение для авиакомпаний — обеспечивая коммерческую поддержку, оптимизацию процессов и организацию чартерных рейсов «под ключ». Мы приносим опыт реальной операционной работы в Украине и странах Европы.">GPN Group acts as an external operational division for airlines — providing commercial support, process optimization and turnkey charter operations. We bring experience from real operational work in Ukraine and European markets.</p>
+      <div class="tag-list">
+        <span class="tag" data-en="Airline startup consulting" data-ru="Консалтинг стартапов">Airline startup consulting</span>
+        <span class="tag" data-en="Aviation business strategy" data-ru="Стратегия бизнеса">Aviation business strategy</span>
+        <span class="tag" data-en="Route development" data-ru="Развитие маршрутов">Route development</span>
+        <span class="tag" data-en="Market analysis" data-ru="Анализ рынка">Market analysis</span>
+        <span class="tag" data-en="Commercial development" data-ru="Коммерческое развитие">Commercial development</span>
+        <span class="tag" data-en="Aviation partnerships" data-ru="Партнёрства">Aviation partnerships</span>
+        <span class="tag" data-en="Process optimization" data-ru="Оптимизация процессов">Process optimization</span>
+      </div>
+      <div style="margin-top: 2.5rem;">
+        <a href="#contact" class="btn-primary" data-en="Request Aviation Consulting" data-ru="Запросить консалтинг">Request Aviation Consulting</a>
+      </div>
+    </div>
+    <div class="fade-up">
+      <div class="for-whom">
+        <div class="for-whom-label" data-en="Who we work with" data-ru="С кем мы работаем">Who we work with</div>
+        <ul class="for-list">
+          <li data-en="Airlines" data-ru="Авиакомпании">Airlines</li>
+          <li data-en="Aviation Investors" data-ru="Авиационные инвесторы">Aviation Investors</li>
+          <li data-en="Airports" data-ru="Аэропорты">Airports</li>
+          <li data-en="Aviation Startups" data-ru="Авиационные стартапы">Aviation Startups</li>
+          <li data-en="Tour Operators" data-ru="Туроператоры">Tour Operators</li>
+        </ul>
+      </div>
+      <div style="margin-top:3rem; padding:2.5rem; border:1px solid rgba(139,105,20,0.15); background:rgba(139,105,20,0.03);">
+        <div class="section-label" style="margin-bottom:1rem;" data-en="Georgia Agency Network" data-ru="Агентская сеть в Грузии">Georgia Agency Network</div>
+        <h3 style="font-family:'EB Garamond',serif; font-weight:400; font-size:2.1rem; margin-bottom:1rem; color:var(--choco);" data-en="Instant Market<br><em>Access in Georgia</em>" data-ru="Мгновенный выход<br><em>на рынок Грузии</em>">Instant Market<br><em>Access in Georgia</em></h3>
+        <p style="font-size:1.05rem; color:var(--text-secondary); line-height:1.85; margin-bottom:1.5rem;" data-en="We built and operate our own extensive ticket sales agency network across Georgia — providing airlines with immediate access to consolidated sales and deep local market expertise." data-ru="Мы создали и управляем собственной разветвлённой агентской сетью по продаже авиабилетов в Грузии — обеспечивая авиакомпаниям мгновенный доступ к консолидированным продажам и глубокой экспертизе местного рынка.">We built and operate our own extensive ticket sales agency network across Georgia — providing airlines with immediate access to consolidated sales and deep local market expertise.</p>
+        <a href="#contact" class="btn-outline" data-en="Enter Georgia Market" data-ru="Войти на рынок Грузии">Enter Georgia Market</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPRESENTATION / GSA -->
+<section class="representation section-pad" id="representation">
+  <div style="position:relative;">
+    <div class="big-text" data-en="GSA" data-ru="ГСА">GSA</div>
+    <div class="section-label" data-en="Representation" data-ru="Представительство">Representation</div>
+    <h2 class="section-title fade-up" data-en="GPN Group –<br><em>Aviation & Travel Solutions</em>" data-ru="GPN Group –<br><em>Авиационные и туристические решения</em>">GPN Group –<br><em>Aviation & Travel Solutions</em></h2>
+    <div class="divider"></div>
+    <div class="two-col" style="margin-top:2rem;">
+      <div>
+        <div class="section-label" style="margin-bottom:0.8rem;" data-en="General Sales Agent (GSA) in Georgia" data-ru="Генеральный агент по продажам (GSA) в Грузии">General Sales Agent (GSA) in Georgia</div>
+        <p class="section-text" data-en="GPN Group provides professional General Sales Agent (GSA) services, delivering full-scale airline representation in Georgia. We manage every aspect of your airline's local presence — from sales and marketing to operations — ensuring efficient market entry and sustainable growth in this strategically important aviation region." data-ru="GPN Group предоставляет профессиональные услуги Генерального агента по продажам (GSA), обеспечивая полноценное представительство авиакомпании в Грузии. Мы управляем каждым аспектом локального присутствия вашей авиакомпании — от продаж и маркетинга до операций.">GPN Group provides professional General Sales Agent (GSA) services, delivering full-scale airline representation in Georgia. We manage every aspect of your airline's local presence — from sales and marketing to operations — ensuring efficient market entry and sustainable growth in this strategically important aviation region.</p>
+        <div style="margin-top:1.8rem;">
+          <div class="for-whom-label" data-en="Our expertise includes:" data-ru="Наша экспертиза включает:">Our expertise includes:</div>
+          <ul class="feature-list">
+            <li data-en="Interline and special prorate agreements (SPA)" data-ru="Интерлайн-соглашения и соглашения о специальных пропорциональных тарифах (SPA)">Interline and special prorate agreements (SPA)</li>
+            <li data-en="Traffic rights coordination with Civil Aviation Authorities" data-ru="Координация прав перевозки с органами гражданской авиации">Traffic rights coordination with Civil Aviation Authorities</li>
+            <li data-en="Sales strategy development and execution" data-ru="Разработка и реализация стратегии продаж">Sales strategy development and execution</li>
+            <li data-en="Trade marketing and digital promotion" data-ru="Торговый маркетинг и цифровое продвижение">Trade marketing and digital promotion</li>
+            <li data-en="Public relations and brand positioning" data-ru="Связи с общественностью и позиционирование бренда">Public relations and brand positioning</li>
+          </ul>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <a href="#contact" class="btn-outline" data-en="Become Airline Partner" data-ru="Стать партнёром">Become Airline Partner</a>
+        </div>
+      </div>
+      <div class="fade-up" style="padding:3rem; border:1px solid rgba(139,105,20,0.15); background:rgba(139,105,20,0.03);">
+        <div class="section-label" style="margin-bottom:1rem;" data-en="Why GSA with GPN Group" data-ru="Почему GSA с GPN Group">Why GSA with GPN Group</div>
+        <ul class="for-list">
+          <li data-en="No need to establish a local office" data-ru="Нет необходимости открывать местный офис">No need to establish a local office</li>
+          <li data-en="Reduced operational costs" data-ru="Снижение операционных затрат">Reduced operational costs</li>
+          <li data-en="Immediate access to local market expertise" data-ru="Немедленный доступ к экспертизе местного рынка">Immediate access to local market expertise</li>
+          <li data-en="Strong industry network and partnerships" data-ru="Широкая отраслевая сеть и партнёрства">Strong industry network and partnerships</li>
+        </ul>
+        <p style="font-size:1.03rem; color:var(--text-secondary); line-height:1.85; margin-top:1.5rem;" data-en="We handle full local operations — staffing, office setup, payroll, and regulatory compliance — ensuring your airline operates smoothly, efficiently, and profitably in Georgia." data-ru="Мы берём на себя все местные операции — подбор персонала, организацию офиса, расчёт заработной платы и соблюдение нормативных требований.">We handle full local operations — staffing, office setup, payroll, and regulatory compliance — ensuring your airline operates smoothly, efficiently, and profitably in Georgia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORPORATE TRAVEL -->
+<section class="corporate section-pad" id="corporate">
+  <div class="section-label" data-en="Corporate" data-ru="Корпоративным">Corporate</div>
+  <h2 class="section-title fade-up" data-en="Corporate Travel<br><em>Assistant</em>" data-ru="Корпоративный<br><em>Travel Assistant</em>">Corporate Travel<br><em>Assistant</em></h2>
+  <div class="divider"></div>
+  <p class="section-text" data-en="Premium-class Travel Assistant services for large companies. We take full responsibility for complex executive travel management — ensuring maximum comfort, route optimization and 24/7 support." data-ru="Услуги Travel Assistant премиум-класса для крупных компаний. Мы берём на себя полное управление сложными поездками топ-менеджмента — обеспечивая максимальный комфорт, оптимизацию маршрутов и поддержку 24/7.">Premium-class Travel Assistant services for large companies. We take full responsibility for complex executive travel management — ensuring maximum comfort, route optimization and 24/7 support.</p>
+  <div class="corporate-grid">
+    <div class="corp-card fade-up">
+      <span class="corp-icon corp-icon-1"></span>
+      <div class="corp-title" data-en="Full Trip Management" data-ru="Полное управление поездками">Full Trip Management</div>
+      <p class="corp-desc" data-en="End-to-end coordination of complex multi-leg executive itineraries, visas, transfers and accommodation." data-ru="Сквозная координация сложных многосегментных маршрутов, виз, трансферов и проживания.">End-to-end coordination of complex multi-leg executive itineraries, visas, transfers and accommodation.</p>
+    </div>
+    <div class="corp-card fade-up">
+      <span class="corp-icon corp-icon-2"></span>
+      <div class="corp-title" data-en="24/7 Support" data-ru="Поддержка 24/7">24/7 Support</div>
+      <p class="corp-desc" data-en="Dedicated support around the clock. Any disruptions handled immediately so executives can focus on business." data-ru="Выделенная поддержка круглосуточно. Любые нарушения устраняются немедленно, чтобы руководители могли сосредоточиться на бизнесе.">Dedicated support around the clock. Any disruptions handled immediately so executives can focus on business.</p>
+    </div>
+    <div class="corp-card fade-up">
+      <span class="corp-icon corp-icon-3"></span>
+      <div class="corp-title" data-en="Cost Optimization" data-ru="Оптимизация затрат">Cost Optimization</div>
+      <p class="corp-desc" data-en="Leveraging our airline relationships and expertise to optimize travel spend without compromising on quality or comfort." data-ru="Используем наши связи с авиакомпаниями для оптимизации расходов на поездки без ущерба для качества и комфорта.">Leveraging our airline relationships and expertise to optimize travel spend without compromising on quality or comfort.</p>
+    </div>
+  </div>
+  <div style="margin-top:2.5rem;">
+    <a href="#contact" class="btn-primary" data-en="Discuss Corporate Travel" data-ru="Обсудить корпоративные поездки">Discuss Corporate Travel</a>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="education section-pad" id="education">
+  <div class="two-col">
+    <div>
+      <div class="section-label" data-en="Education" data-ru="Образование">Education</div>
+      <h2 class="section-title fade-up" data-en="Aviation Training<br><em>& Development</em>" data-ru="Авиационные тренинги<br><em>и развитие</em>">Aviation Training<br><em>& Development</em></h2>
+      <div class="divider"></div>
+      <p class="section-text" data-en="We organize and conduct specialized training programs for aviation managers, transferring practical knowledge and modern sales technologies proven through our own network-building experience." data-ru="Мы организуем и проводим специализированные тренинги для авиаменеджеров, передавая практические знания и современные технологии продаж, проверенные на практике при создании собственной агентской сети.">We organize and conduct specialized training programs for aviation managers, transferring practical knowledge and modern sales technologies proven through our own network-building experience.</p>
+      <div class="edu-highlight fade-up">
+        <div class="section-label" style="margin-bottom:0.5rem;" data-en="Flagship Program" data-ru="Флагманская программа">Flagship Program</div>
+        <div class="edu-program-title" data-en="«Airline Ticket Sales»" data-ru="«Реализация авиабилетов»">«Airline Ticket Sales»</div>
+        <p style="font-size:1.03rem; color:var(--text-secondary); line-height:1.85;" data-en="A comprehensive course covering the full lifecycle of airline ticket sales — from fare structures and booking systems to revenue management and agency network operations. Delivered by practitioners with real-world airline experience." data-ru="Комплексный курс, охватывающий полный жизненный цикл продаж авиабилетов — от тарифных структур и систем бронирования до управления доходами и работы агентской сети. Проводится практиками с реальным опытом работы в авиации.">A comprehensive course covering the full lifecycle of airline ticket sales — from fare structures and booking systems to revenue management and agency network operations.</p>
+      </div>
+    </div>
+    <div class="fade-up" style="padding-top:1rem;">
+      <div class="section-label" style="margin-bottom:1rem;" data-en="Program Topics" data-ru="Темы программ">Program Topics</div>
+      <ul class="for-list">
+        <li data-en="Modern airline distribution and GDS systems" data-ru="Современная дистрибьюция авиабилетов и GDS системы">Modern airline distribution and GDS systems</li>
+        <li data-en="Building and managing agency sales networks" data-ru="Создание и управление агентскими сетями продаж">Building and managing agency sales networks</li>
+        <li data-en="Revenue management fundamentals" data-ru="Основы управления доходами">Revenue management fundamentals</li>
+        <li data-en="Aviation market strategy and route planning" data-ru="Стратегия авиарынка и планирование маршрутов">Aviation market strategy and route planning</li>
+        <li data-en="Corporate travel program management" data-ru="Управление корпоративными программами поездок">Corporate travel program management</li>
+      </ul>
+      <div style="margin-top:2rem; padding:2.5rem; border:1px solid rgba(139,105,20,0.15); background:rgba(139,105,20,0.03); margin-bottom:1.5rem;">
+        <div class="for-whom-label" data-en="Who attends:" data-ru="Кто участвует:">Who attends:</div>
+        <ul class="for-list" style="margin-top:1rem;">
+          <li data-en="Airline commercial managers" data-ru="Коммерческие менеджеры авиакомпаний">Airline commercial managers</li>
+          <li data-en="Travel agency owners & directors" data-ru="Владельцы и директора турагентств">Travel agency owners & directors</li>
+          <li data-en="Aviation startup founders" data-ru="Основатели авиационных стартапов">Aviation startup founders</li>
+          <li data-en="Airport & ground services teams" data-ru="Команды аэропортов и наземных служб">Airport & ground services teams</li>
+        </ul>
+      </div>
+      <a href="#contact" class="btn-primary" data-en="Inquire About Training" data-ru="Узнать о тренингах">Inquire About Training</a>
+    </div>
+  </div>
+</section>
+
+<!-- TRAVEL DISTRIBUTION -->
+<section class="travel section-pad" id="travel">
+  <div class="section-label" data-en="Distribution" data-ru="Дистрибьюция">Distribution</div>
+  <h2 class="section-title fade-up" data-en="Travel Distribution &<br><em>Tourism Development</em>" data-ru="Туристическая дистрибьюция и<br><em>Развитие туризма</em>">Travel Distribution &<br><em>Tourism Development</em></h2>
+  <div class="divider"></div>
+  <div class="travel-grid">
+    <div class="travel-card fade-up">
+      <span class="travel-icon travel-icon-out"></span>
+      <div class="travel-card-title" data-en="Outgoing Tourism" data-ru="Выездной туризм">Outgoing Tourism</div>
+      <p class="travel-card-desc" data-en="Development and sales of international tourism packages for travelers departing to global destinations." data-ru="Разработка и продажа международных туристических пакетов для путешественников, отправляющихся в мировые направления.">Development and sales of international tourism packages for travelers departing to global destinations.</p>
+    </div>
+    <div class="travel-card fade-up">
+      <span class="travel-icon travel-icon-in"></span>
+      <div class="travel-card-title" data-en="Incoming Tourism" data-ru="Въездной туризм">Incoming Tourism</div>
+      <p class="travel-card-desc" data-en="Destination development and tourism programs for international travelers visiting CIS and European markets." data-ru="Развитие направлений и туристических программ для международных путешественников, посещающих рынки СНГ и Европы.">Destination development and tourism programs for international travelers visiting CIS and European markets.</p>
+    </div>
+  </div>
+  <div style="margin-top: 2.5rem;">
+    <a href="#contact" class="btn-outline" data-en="Start Travel Partnership" data-ru="Начать туристическое партнёрство">Start Travel Partnership</a>
+  </div>
+</section>
+
+<!-- CHARTER -->
+<section class="charter section-pad" id="charter">
+  <div style="position:relative;">
+    <div class="big-text" data-en="Charter" data-ru="Чартер">Charter</div>
+    <div class="section-label" data-en="Charter Operations" data-ru="Чартерные операции">Charter Operations</div>
+    <h2 class="section-title fade-up" data-en="Aircraft Charter –<br><em>Tailored Air Travel Solutions</em>" data-ru="Авиачартер –<br><em>Индивидуальные решения для авиаперелётов</em>">Aircraft Charter –<br><em>Tailored Air Travel Solutions</em></h2>
+    <div class="divider"></div>
+    <div class="two-col" style="margin-top:2rem;">
+      <div>
+        <p class="section-text" data-en="We provide fully customized aircraft charter solutions for corporate groups and incentive travel, government and official delegations, sports teams, artists, and film productions. From aircraft selection to route planning, permits, and ground handling — we manage every detail with precision and reliability." data-ru="Мы предоставляем полностью индивидуальные решения для авиачартера: корпоративные группы и инсентив-туры, правительственные и официальные делегации, спортивные команды, артисты и киносъёмочные группы. От выбора воздушного судна до планирования маршрута, получения разрешений и наземного обслуживания — мы управляем каждой деталью с точностью и надёжностью.">We provide fully customized aircraft charter solutions for corporate groups and incentive travel, government and official delegations, sports teams, artists, and film productions. From aircraft selection to route planning, permits, and ground handling — we manage every detail with precision and reliability.</p>
+        <div class="charter-types" style="margin-top:1.5rem;">
+          <div class="charter-type fade-up">
+            <div class="charter-type-title" data-en="Corporate & Incentive" data-ru="Корпоративные и инсентив">Corporate & Incentive</div>
+          </div>
+          <div class="charter-type fade-up">
+            <div class="charter-type-title" data-en="Government Delegations" data-ru="Правительственные делегации">Government Delegations</div>
+          </div>
+          <div class="charter-type fade-up">
+            <div class="charter-type-title" data-en="Sports & Entertainment" data-ru="Спорт и развлечения">Sports & Entertainment</div>
+          </div>
+          <div class="charter-type fade-up">
+            <div class="charter-type-title" data-en="Film & Production" data-ru="Кино и продакшн">Film & Production</div>
+          </div>
+        </div>
+        <div style="margin-top:2rem;">
+          <a href="#contact" class="btn-primary" data-en="Request Charter Quote" data-ru="Запросить чартер">Request Charter Quote</a>
+        </div>
+      </div>
+      <div class="fade-up" style="padding:3rem; border:1px solid rgba(139,105,20,0.15); background:rgba(139,105,20,0.03); display:flex; flex-direction:column; justify-content:center;">
+        <div class="section-label" style="margin-bottom:1rem;" data-en="What You Get" data-ru="Что вы получаете">What You Get</div>
+        <ul class="for-list">
+          <li data-en="End-to-end charter coordination" data-ru="Сквозная координация чартера">End-to-end charter coordination</li>
+          <li data-en="Flexible scheduling tailored to your needs" data-ru="Гибкое расписание под ваши задачи">Flexible scheduling tailored to your needs</li>
+          <li data-en="24/7 operational support" data-ru="Операционная поддержка 24/7">24/7 operational support</li>
+          <li data-en="Seamless execution at every stage" data-ru="Безупречное исполнение на каждом этапе">Seamless execution at every stage</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GROUP TRAVEL -->
+<section class="corporate section-pad" id="group-travel" style="background:var(--ivory);">
+  <div class="section-label" data-en="Group Travel" data-ru="Групповые поездки">Group Travel</div>
+  <h2 class="section-title fade-up" data-en="Group Travel &<br><em>Flight Solutions</em>" data-ru="Групповые поездки<br><em>и авиационные решения</em>">Group Travel &<br><em>Flight Solutions</em></h2>
+  <div class="divider"></div>
+  <p class="section-text" data-en="Managing travel for multiple passengers can be complex — we make it simple. GPN Group designs efficient group travel programs, ensuring optimized routes, smooth connections, and cost-effective solutions." data-ru="Организация поездок для нескольких пассажиров может быть сложной — мы делаем это простым. GPN Group разрабатывает эффективные программы групповых перелётов, обеспечивая оптимизированные маршруты, удобные стыковки и экономически эффективные решения.">Managing travel for multiple passengers can be complex — we make it simple. GPN Group designs efficient group travel programs, ensuring optimized routes, smooth connections, and cost-effective solutions.</p>
+  <div class="corporate-grid">
+    <div class="corp-card fade-up" style="background:var(--ivory);">
+      <span class="corp-icon corp-icon-1"></span>
+      <div class="corp-title" data-en="Corporate Travel & Events" data-ru="Корпоративные поездки и мероприятия">Corporate Travel & Events</div>
+      <p class="corp-desc" data-en="Optimized routing and flight combinations for corporate teams, conferences, and business events of any scale." data-ru="Оптимизированные маршруты и комбинации рейсов для корпоративных команд, конференций и деловых мероприятий любого масштаба.">Optimized routing and flight combinations for corporate teams, conferences, and business events of any scale.</p>
+    </div>
+    <div class="corp-card fade-up" style="background:var(--ivory);">
+      <span class="corp-icon corp-icon-2"></span>
+      <div class="corp-title" data-en="Delegations & Official Trips" data-ru="Делегации и официальные поездки">Delegations & Official Trips</div>
+      <p class="corp-desc" data-en="Full operational coordination for government and business delegations. Protocol-compliant logistics with dedicated support." data-ru="Полная операционная координация правительственных и деловых делегаций. Логистика с соблюдением протокола и выделенная поддержка.">Full operational coordination for government and business delegations. Protocol-compliant logistics with dedicated support.</p>
+    </div>
+    <div class="corp-card fade-up" style="background:var(--ivory);">
+      <span class="corp-icon corp-icon-3"></span>
+      <div class="corp-title" data-en="International Projects & Productions" data-ru="Международные проекты и продакшн">International Projects & Productions</div>
+      <p class="corp-desc" data-en="Access to global airline networks and 24/7 support for international projects, film productions, and large-scale deployments." data-ru="Доступ к мировым авиасетям и поддержка 24/7 для международных проектов, киносъёмок и масштабных командировок.">Access to global airline networks and 24/7 support for international projects, film productions, and large-scale deployments.</p>
+    </div>
+  </div>
+  <div style="margin-top:2.5rem;">
+    <a href="#contact" class="btn-primary" data-en="Plan Group Travel" data-ru="Организовать групповую поездку">Plan Group Travel</a>
+  </div>
+</section>
+
+<!-- COMBINATION FLIGHTS -->
+<section class="section-pad" style="background:var(--ivory-deep);">
+  <div class="two-col">
+    <div>
+      <div class="section-label" data-en="Smart Routing" data-ru="Умная маршрутизация">Smart Routing</div>
+      <h2 class="section-title fade-up" data-en="Combination Flights<br><em>(Scheduled + Charter)</em>" data-ru="Комбинированные рейсы<br><em>(Регулярные + Чартерные)</em>">Combination Flights<br><em>(Scheduled + Charter)</em></h2>
+      <div class="divider"></div>
+      <p class="section-text" data-en="For travelers departing from multiple locations, combining scheduled and charter flights is often the most efficient solution. We design seamless travel programs integrating both options — ensuring all passengers arrive on time, without complications." data-ru="Для пассажиров, вылетающих из разных точек, комбинация регулярных и чартерных рейсов зачастую является наиболее эффективным решением. Мы разрабатываем бесшовные программы перелётов, интегрирующие оба варианта — гарантируя, что все пассажиры прибудут вовремя, без осложнений.">For travelers departing from multiple locations, combining scheduled and charter flights is often the most efficient solution. We design seamless travel programs integrating both options — ensuring all passengers arrive on time, without complications.</p>
+      <div style="margin-top:2rem;">
+        <a href="#contact" class="btn-outline" data-en="Discuss Your Route" data-ru="Обсудить маршрут">Discuss Your Route</a>
+      </div>
+    </div>
+    <div class="fade-up" style="padding:3rem; border:1px solid rgba(139,105,20,0.15); background:rgba(139,105,20,0.03);">
+      <div class="section-label" style="margin-bottom:1rem;" data-en="How It Works" data-ru="Как это работает">How It Works</div>
+      <ul class="for-list">
+        <li data-en="Multiple departure points consolidated into one group" data-ru="Несколько точек вылета объединяются в одну группу">Multiple departure points consolidated into one group</li>
+        <li data-en="Scheduled + charter legs seamlessly connected" data-ru="Регулярные и чартерные сегменты без разрывов">Scheduled + charter legs seamlessly connected</li>
+        <li data-en="Single point of responsibility for the entire journey" data-ru="Единая точка ответственности за весь маршрут">Single point of responsibility for the entire journey</li>
+        <li data-en="Cost-optimized across all segments" data-ru="Оптимизация затрат по всем сегментам">Cost-optimized across all segments</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- VIP CHARTER -->
+<section class="section-pad" id="vip-charter" style="background:var(--ivory);">
+  <div style="position:relative;">
+    <div class="big-text" data-en="VIP" data-ru="VIP">VIP</div>
+    <div class="section-label" data-en="VIP Aviation" data-ru="VIP Авиация">VIP Aviation</div>
+    <h2 class="section-title fade-up" data-en="VIP Aircraft Charter –<br><em>Private Aviation with Ultimate Comfort</em>" data-ru="VIP Авиачартер –<br><em>Частная авиация с максимальным комфортом</em>">VIP Aircraft Charter –<br><em>Private Aviation with Ultimate Comfort</em></h2>
+    <div class="divider"></div>
+    <div class="two-col" style="margin-top:2rem;">
+      <div>
+        <p class="section-text" data-en="Experience a new level of flexibility, privacy, and efficiency with VIP aircraft charter from GPN Group. Fly on your own schedule, in complete comfort and discretion." data-ru="Откройте для себя новый уровень гибкости, конфиденциальности и эффективности с VIP авиачартером от GPN Group. Летайте по собственному расписанию в полном комфорте и с полной конфиденциальностью.">Experience a new level of flexibility, privacy, and efficiency with VIP aircraft charter from GPN Group. Fly on your own schedule, in complete comfort and discretion.</p>
+        <div style="margin-top:1.5rem;">
+          <div class="for-whom-label" data-en="Ideal for:" data-ru="Идеально для:">Ideal for:</div>
+          <ul class="feature-list">
+            <li data-en="Executives and business travel" data-ru="Топ-менеджеры и деловые поездки">Executives and business travel</li>
+            <li data-en="Government and VIP delegations" data-ru="Правительственные и VIP-делегации">Government and VIP delegations</li>
+            <li data-en="Luxury and private travel" data-ru="Люкс и частные поездки">Luxury and private travel</li>
+          </ul>
+        </div>
+        <div style="margin-top:2rem;">
+          <a href="#contact" class="btn-primary" data-en="Request VIP Charter" data-ru="Запросить VIP чартер">Request VIP Charter</a>
+        </div>
+      </div>
+      <div class="fade-up" style="padding:3rem; border:1px solid rgba(139,105,20,0.15); background:rgba(139,105,20,0.03);">
+        <div class="section-label" style="margin-bottom:1rem;" data-en="What You Get" data-ru="Что вы получаете">What You Get</div>
+        <ul class="for-list">
+          <li data-en="Long-range aircraft (7,000 – 12,500 km)" data-ru="Дальнемагистральные самолёты (7 000 – 12 500 км)">Long-range aircraft (7,000 – 12,500 km)</li>
+          <li data-en="Spacious cabins and full privacy" data-ru="Просторные салоны и полная конфиденциальность">Spacious cabins and full privacy</li>
+          <li data-en="Premium interiors with lounge and bedroom areas" data-ru="Премиальный интерьер с зоной отдыха и спальней">Premium interiors with lounge and bedroom areas</li>
+          <li data-en="Tailored onboard catering" data-ru="Индивидуальное бортовое питание">Tailored onboard catering</li>
+          <li data-en="24/7 concierge-level support" data-ru="Консьерж-поддержка 24/7">24/7 concierge-level support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AIR CARGO -->
+<section class="section-pad" id="cargo" style="background:var(--ivory-deep);">
+  <div style="position:relative;">
+    <div class="big-text" data-en="Cargo" data-ru="Карго">Cargo</div>
+    <div class="section-label" data-en="Air Freight" data-ru="Авиагрузы">Air Freight</div>
+    <h2 class="section-title fade-up" data-en="Air Cargo Solutions –<br><em>Fast & Reliable Global Freight</em>" data-ru="Авиагрузовые решения –<br><em>Быстрая и надёжная международная доставка</em>">Air Cargo Solutions –<br><em>Fast & Reliable Global Freight</em></h2>
+    <div class="divider"></div>
+    <div class="two-col" style="margin-top:2rem;">
+      <div>
+        <p class="section-text" data-en="We provide efficient and secure air cargo solutions for time-sensitive and high-value shipments worldwide." data-ru="Мы предоставляем эффективные и безопасные авиагрузовые решения для срочных и высокоценных грузоотправлений по всему миру.">We provide efficient and secure air cargo solutions for time-sensitive and high-value shipments worldwide.</p>
+        <div style="margin-top:1.5rem;">
+          <div class="for-whom-label" data-en="Our services:" data-ru="Наши услуги:">Our services:</div>
+          <ul class="feature-list">
+            <li data-en="Worldwide cargo transportation" data-ru="Международные грузовые перевозки">Worldwide cargo transportation</li>
+            <li data-en="Handling of pallets, containers, and special cargo" data-ru="Обработка паллет, контейнеров и специальных грузов">Handling of pallets, containers, and special cargo</li>
+            <li data-en="Customized logistics solutions" data-ru="Индивидуальные логистические решения">Customized logistics solutions</li>
+            <li data-en="Fast and secure delivery" data-ru="Быстрая и надёжная доставка">Fast and secure delivery</li>
+            <li data-en="Coordination with airlines and airports" data-ru="Координация с авиакомпаниями и аэропортами">Coordination with airlines and airports</li>
+          </ul>
+        </div>
+        <div style="margin-top:2rem;">
+          <a href="#contact" class="btn-primary" data-en="Request Cargo Quote" data-ru="Запросить грузоперевозку">Request Cargo Quote</a>
+        </div>
+      </div>
+      <div class="fade-up" style="padding:3rem; border:1px solid rgba(139,105,20,0.15); background:rgba(139,105,20,0.03);">
+        <div class="section-label" style="margin-bottom:1rem;" data-en="Ideal for:" data-ru="Идеально для:">Ideal for:</div>
+        <ul class="for-list">
+          <li data-en="Urgent shipments" data-ru="Срочные отправления">Urgent shipments</li>
+          <li data-en="High-value cargo" data-ru="Высокоценные грузы">High-value cargo</li>
+          <li data-en="Industrial and commercial goods" data-ru="Промышленные и коммерческие товары">Industrial and commercial goods</li>
+        </ul>
+        <div style="margin-top:2rem; padding:1.5rem; border:1px solid rgba(139,105,20,0.15); background:rgba(139,105,20,0.04);">
+          <p style="font-size:1.1rem; color:var(--bronze-mid); font-family:'EB Garamond',serif; font-style:italic; line-height:1.5;" data-en="&ldquo;Partner with GPN Group and gain a reliable aviation partner in Georgia and beyond.&rdquo;" data-ru="&laquo;Станьте партнёром GPN Group и получите надёжного авиационного партнёра в Грузии и за её пределами.&raquo;">&ldquo;Partner with GPN Group and gain a reliable aviation partner in Georgia and beyond.&rdquo;</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKETS -->
+<section class="markets section-pad" id="markets">
+  <div class="markets-inner">
+    <div>
+      <div class="section-label" data-en="Geography" data-ru="География">Geography</div>
+      <h2 class="section-title fade-up" data-en="Our Key<br><em>Markets</em>" data-ru="Ключевые<br><em>рынки</em>">Our Key<br><em>Markets</em></h2>
+      <div class="divider"></div>
+      <p class="section-text" data-en="Deep expertise and established networks across key aviation and tourism regions." data-ru="Глубокая экспертиза и установленные сети в ключевых авиационных и туристических регионах.">Deep expertise and established networks across key aviation and tourism regions.</p>
+      <div class="regions">
+        <div class="region-item"><div class="region-dot"></div><div class="region-name" data-en="Georgia" data-ru="Грузия">Georgia</div></div>
+        <div class="region-item"><div class="region-dot"></div><div class="region-name" data-en="Caucasus" data-ru="Кавказ">Caucasus</div></div>
+        <div class="region-item"><div class="region-dot"></div><div class="region-name">CIS</div></div>
+        <div class="region-item"><div class="region-dot"></div><div class="region-name" data-en="Ukraine" data-ru="Украина">Ukraine</div></div>
+        <div class="region-item"><div class="region-dot"></div><div class="region-name" data-en="Spain" data-ru="Испания">Spain</div></div>
+        <div class="region-item"><div class="region-dot"></div><div class="region-name" data-en="Europe" data-ru="Европа">Europe</div></div>
+        <div class="region-item"><div class="region-dot"></div><div class="region-name" data-en="Central Asia" data-ru="Центральная Азия">Central Asia</div></div>
+      </div>
+    </div>
+    <div class="globe-visual fade-up">
+      <div class="visual-plane">
+        <div class="plane-circle">
+          <svg class="plane-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why section-pad">
+  <div class="section-label" data-en="Advantages" data-ru="Преимущества">Advantages</div>
+  <h2 class="section-title fade-up" data-en="Why GPN Group" data-ru="Почему GPN Group">Why GPN Group</h2>
+  <div class="divider"></div>
+  <div class="why-grid">
+    <div class="why-item fade-up">
+      <div class="why-check">✔</div>
+      <div class="why-text" data-en="Aviation consulting expertise with 30+ years of combined industry experience" data-ru="Авиационная экспертиза: 30+ лет совокупного отраслевого опыта">Aviation consulting expertise with 30+ years of combined industry experience</div>
+    </div>
+    <div class="why-item fade-up">
+      <div class="why-check">✔</div>
+      <div class="why-text" data-en="Proprietary agency network in Georgia — built from scratch, managed by our team" data-ru="Собственная агентская сеть в Грузии — создана с нуля и управляется нашей командой">Proprietary agency network in Georgia — built from scratch, managed by our team</div>
+    </div>
+    <div class="why-item fade-up">
+      <div class="why-check">✔</div>
+      <div class="why-text" data-en="International network spanning CIS, Caucasus, Europe and Central Asia markets" data-ru="Международная сеть в СНГ, на Кавказе, в Европе и Центральной Азии">International network spanning CIS, Caucasus, Europe and Central Asia markets</div>
+    </div>
+    <div class="why-item fade-up">
+      <div class="why-check">✔</div>
+      <div class="why-text" data-en="Boutique approach: clients work directly with senior experts, not account managers" data-ru="Бутиковый подход: клиенты работают напрямую с экспертами, а не с менеджерами по работе с клиентами">Boutique approach: clients work directly with senior experts, not account managers</div>
+    </div>
+    <div class="why-item fade-up">
+      <div class="why-check">✔</div>
+      <div class="why-text" data-en="Flexible charter solutions tailored to any operational requirement, turnkey" data-ru="Гибкие чартерные решения под любые операционные требования, «под ключ»">Flexible charter solutions tailored to any operational requirement, turnkey</div>
+    </div>
+    <div class="why-item fade-up">
+      <div class="why-check">✔</div>
+      <div class="why-text" data-en="Distributed team enables rapid response across multiple time zones and jurisdictions" data-ru="Распределённая команда обеспечивает быстрый отклик в нескольких часовых поясах и юрисдикциях">Distributed team enables rapid response across multiple time zones and jurisdictions</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="cta">
+  <div class="final-cta-inner">
+    <div class="final-cta-bg"></div>
+    <div class="section-label" style="justify-content:center; color:var(--bronze-pale);" data-en="Begin Partnership" data-ru="Начать сотрудничество">Begin Partnership</div>
+    <h2 class="fade-up" data-en="Start Cooperation with<br><em>GPN Group</em>" data-ru="Начните сотрудничество с<br><em>GPN Group</em>">Start Cooperation with<br><em>GPN Group</em></h2>
+    <p data-en="Ready to develop your aviation or tourism business with an experienced boutique partner?" data-ru="Готовы развивать свой авиационный или туристический бизнес с опытным бутиковым партнёром?">Ready to develop your aviation or tourism business with an experienced boutique partner?</p>
+    <div class="final-btns">
+      <a href="#contact" class="btn-primary" data-en="Become Airline Partner" data-ru="Стать партнёром">Become Airline Partner</a>
+      <a href="#consulting" class="btn-outline" data-en="Request Aviation Consulting" data-ru="Запросить консалтинг">Request Aviation Consulting</a>
+      <a href="#charter" class="btn-outline" data-en="Request Charter Flight" data-ru="Запросить чартер">Request Charter Flight</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact section-pad" id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-label" data-en="Get in Touch" data-ru="Связаться с нами">Get in Touch</div>
+      <h2 class="section-title fade-up" data-en="Contact<br><em>GPN Group</em>" data-ru="Контакт<br><em>GPN Group</em>">Contact<br><em>GPN Group</em></h2>
+      <div class="divider"></div>
+      <div class="contact-detail">
+        <span class="contact-icon contact-icon-loc"></span>
+        <span data-en="Tbilisi, Georgia" data-ru="Тбилиси, Грузия">Tbilisi, Georgia</span>
+      </div>
+      <div class="contact-detail">
+        <span class="contact-icon contact-icon-tel"></span>
+        <a href="tel:+995533331165" style="color:var(--text-secondary); text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='var(--bronze)'" onmouseout="this.style.color='var(--text-secondary)'">+995 533 331 165</a>
+      </div>
+    </div>
+    <div class="contact-form fade-up">
+      <div class="contact-detail">
+        <span class="contact-icon"></span>
+
+        <a href="mailto:info@gpngroup.ge" style="color:var(--off-white); text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='#c8a96e'" onmouseout="this.style.color='var(--off-white)'">info@gpngroup.ge</a>
+
+      </div>
+      <div class="contact-detail">
+        <span class="contact-icon"></span>
+        <a href="https://t.me/NATAGTT" target="_blank" rel="noopener noreferrer" style="color:var(--text-secondary); text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='var(--bronze)'" onmouseout="this.style.color='var(--text-secondary)'">Telegram: t.me/NATAGTT</a>
+      </div>
+      <div class="contact-detail">
+        <span class="contact-icon"></span>
+        <a href="https://wa.me/+995533331165" target="_blank" rel="noopener noreferrer" style="color:var(--text-secondary); text-decoration:none; transition:color 0.3s;" onmouseover="this.style.color='var(--bronze)'" onmouseout="this.style.color='var(--text-secondary)'">WhatsApp: +995 533 331 165</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">GPN<span> Group</span></div>
+      <p class="footer-tagline" data-en="Boutique aviation consulting, operations and distribution group across CIS, Caucasus and European markets." data-ru="Бутиковая авиационная консалтинговая, операционная и дистрибьюторская группа на рынках СНГ, Кавказа и Европы.">Boutique aviation consulting, operations and distribution group across CIS, Caucasus and European markets.</p>
+    </div>
+    <div>
+      <div class="footer-nav-title" data-en="Services" data-ru="Услуги">Services</div>
+      <ul class="footer-links">
+        <li><a href="#representation" data-en="Airline GSA" data-ru="GSA Авиакомпаний">Airline GSA</a></li>
+        <li><a href="#consulting" data-en="Airline Consulting" data-ru="Авиационный консалтинг">Airline Consulting</a></li>
+        <li><a href="#corporate" data-en="Corporate Travel" data-ru="Корпоративные поездки">Corporate Travel</a></li>
+        <li><a href="#charter" data-en="Charter Aviation" data-ru="Чартерная авиация">Charter Aviation</a></li>
+        <li><a href="#vip-charter" data-en="VIP Charter" data-ru="VIP Чартер">VIP Charter</a></li>
+        <li><a href="#cargo" data-en="Air Cargo" data-ru="Авиагрузы">Air Cargo</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© GPN Group · <span data-en="All Rights Reserved" data-ru="Все права защищены">All Rights Reserved</span></div>
+    <div class="footer-copy">Tbilisi, Georgia · +995 533 331 165</div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
+  // ─── INTERSECTION OBSERVER ───
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const siblings = Array.from(entry.target.parentNode.children).filter(c => c.classList.contains('fade-up'));
+        const idx = siblings.indexOf(entry.target);
+        setTimeout(() => { entry.target.classList.add('visible'); }, 80 * idx);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ─── MOBILE MENU ───
+  let menuOpen = false;
+  function toggleMenu() {
+    menuOpen = !menuOpen;
+    const menu = document.getElementById('mobileMenu');
+    const burger = document.getElementById('hamburger');
+    menu.classList.toggle('open', menuOpen);
+    burger.classList.toggle('open', menuOpen);
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+  }
+  function closeMenu() {
+    menuOpen = false;
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+        // ─── LANGUAGE SWITCHER ───
+  let currentLang = 'en';
+  function setLang(lang, clickedBtn) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-switcher .lang-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('desktopLangEn').classList.toggle('active', lang === 'en');
+    document.getElementById('desktopLangRu').classList.toggle('active', lang === 'ru');
+    document.querySelectorAll('.mobile-lang .lang-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent.toLowerCase() === lang);
+    });
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const textKey = lang === 'ru' ? 'ru' : 'en';
+      const val = el.getAttribute('data-' + textKey);
+      if (val !== null) el.innerHTML = val;
+    });
+  }
+</script>
+</body>
+</html>
